@@ -2,20 +2,21 @@ package com.upgrad.hireWheels.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @Column(name = "user_id",nullable = false,precision = 10)
+    @Column(nullable = false,precision = 10)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
 
-    @Column(name = "first_name",length = 50,nullable = false)
+    @Column(length = 50,nullable = false)
     private String firstName;
 
-    @Column(name = "last_name",length = 50)
+    @Column(length = 50)
     private String lastName;
 
     @Column(length = 50,nullable = false)
@@ -28,10 +29,40 @@ public class User {
     @Column(precision = 10,nullable = false,unique = true)
     private int mobileNo;
 
+    @ManyToOne
+    @JoinColumn(name = "roleId",nullable = false)
+    private Role role;
 
-
-    @Column(name = "wallet_money", precision = 10, scale = 2)
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    private List<Booking> bookings;
+    @Column(precision = 10, scale = 2)
     private float walletMoney = 10000.00f;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", mobileNo=" + mobileNo +
+                ", role=" + role +
+                ", walletMoney=" + walletMoney +
+                '}';
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public int getUserId() {
         return userId;
@@ -85,15 +116,5 @@ public class User {
         this.walletMoney = walletMoney;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", mobileNo=" + mobileNo +
-                ", walletMoney=" + walletMoney +
-                '}';
-    }
+
 }

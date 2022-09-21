@@ -21,6 +21,18 @@ public class Booking {
     @Column(nullable = false, precision = 10, scale = 2)
     private float amount;
 
+    @ManyToOne
+    @JoinColumn(name = "locationId",nullable = false)
+    private Location location;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id",nullable = false)
+    private Vehicle vehicle;
+
+    @ManyToOne
+    @JoinColumn(name = "userId",nullable = false)
+    private User user;
+
     @Override
     public String toString() {
         return "Booking{" +
@@ -29,7 +41,34 @@ public class Booking {
                 ", dropoffDate=" + dropoffDate +
                 ", bookingDate=" + bookingDate +
                 ", amount=" + amount +
+                ", location=" + location +
+                ", vehicle=" + vehicle +
+                ", user=" + user +
                 '}';
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getBookingId() {
